@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Назва товару</th>
+            <th>Опис товару</th>
+            <th>Ціна товару</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.price }}
+                <span class="currency">грн</span>
+            </td>
+            <td>
+                <a href="{% url 'delete_product' id=product.id %}" class="btn btn-danger">Видалити</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
+
+
+
