@@ -3,6 +3,8 @@ from django.contrib import messages
 
 from .models import Product
 from .forms import ProductForm
+from django.http import HttpRequest
+from django.views.generic import ListView
 
 # Create your views here.
 
@@ -20,13 +22,15 @@ def add_product(request):
     return render(request=request, template_name="add_product.html", context=dict(form=form))
 
 
-def get_products(request):
-    products = Product.objects.all()
-    return render(request=request, template_name="products.html", context=dict(products=products))
-
-
 def delete_product(request, id):
     product = Product.objects.filter(pk=id).first()
     product.delete()
     messages.add_message(request=request, level=messages.SUCCESS, message=f"Товар '{product}' успішно видалено")
     return redirect("get_products")
+
+
+class ProductListView(ListView):
+    model = Product
+    template_name = "products.html"
+    context_object_name = 'products'
+    paginate_by = 2
